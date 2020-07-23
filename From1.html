@@ -1,0 +1,100 @@
+
+Search documentation...
+Sign up
+Support
+
+APIs & SDKs
+Sign in
+IBAN Element Quickstart
+Securely collect IBANs using Elements, our prebuilt UI components.
+
+We recommend using the Payment Intents and Payment Methods APIs to integrate SEPA Direct Debit. See the SEPA Direct Debit payments guide.
+
+The IBAN Element lets you collect your customers’ International Bank Account Number (IBAN) in order to create SEPA Direct Debit Sources or bank_account tokens. It currently supports IBANs from countries that are part of the Single Euro Payments Area (SEPA).
+
+Result HTML CSS JavaScript
+
+SEPA DIRECT DEBIT PAYMENTS WITH ELEMENTS
+The IBAN Element Quickstart covers creating a sepa_debit source client-side for use in SEPA Direct Debit payments.
+
+For more information about collecting mandate acceptance and charging the source, please refer to the main SEPA Direct Debit guide.
+
+Try it out using the following test IBANs:
+
+DE89 3704 0044 0532 0130 00
+NL91 ABNA 0417 1643 00
+Additional features of the IBAN Element include:
+
+Instant client-side formatting and validation of IBANs from all SEPA countries
+Bank logo icon for popular banks in Austria, Belgium, Germany, and the Netherlands
+Bank name information for IBANs from many SEPA countries
+Locale-based placeholders e.g. German users see a “DE” IBAN placeholder, and Dutch users see an “NL” one
+Keyboard and screen reader accessibility
+Cross-browser support and mobile optimization
+Localization in 15 languages
+Contact support to request a review before following this guide if your account has not regularly processed card payments for at least 30 days. You should also request a review if you plan to process a high volume of transactions. SEPA Direct Debit payments are subject to processing volume limits, and payments can fail if you exceed your limits.
+
+Building a custom payment form with Elements to create sepa_debit Sources requires four steps:
+
+Set up Stripe Elements
+Create your payment form
+Create a Source object
+Submit the Source and the rest of your form to your server
+Step 1: Set up Stripe Elements
+Include the following script in the head section on every page on your site. This script must always load directly from js.stripe.com to remain PCI compliant. You can’t include the script in a bundle or host a copy of it yourself.
+
+<script src="https://js.stripe.com/v3/"></script>
+To best leverage Stripe’s advanced fraud functionality and ability to detect anomalous browsing behavior, include the script in the head section on every page on your site, not just the checkout page.
+
+Next, create an instance of Elements:
+
+JavaScript JavaScript (ESNext)
+var stripe = Stripe('pk_test_TYooMQauvdED
+
+<form action="/charge" method="post" id="payment-form">
+  <div class="form-row inline">
+    <div class="col">
+      <label for="name">
+        Name
+      </label>
+      <input id="name" name="name" placeholder="Jenny Rosen" required>
+    </div>
+    <div class="col">
+      <label for="email">
+        Email Address
+      </label>
+      <input
+        id="email"
+        name="email"
+        type="email"
+        placeholder="jenny.rosen@example.com"
+        required
+      >
+    </div>
+  </div>
+
+  <div class="form-row">
+    <label for="iban-element">
+      IBAN
+    </label>
+    <div id="iban-element">
+      <!-- A Stripe Element will be inserted here. -->
+    </div>
+  </div>
+
+  <button>Submit Payment</button>
+
+  <!-- Used to display form errors. -->
+  <div id="error-message" role="alert"></div>
+
+  <!-- Display mandate acceptance text. -->
+  <div id="mandate-acceptance">
+    By providing your IBAN and confirming this payment, you authorise
+    (A) Rocketship Inc. and Stripe, our payment service
+    provider, to send instructions to your bank to debit your account and
+    (B) your bank to debit your account in accordance with those instructions.
+    You are entitled to a refund from your bank under the terms and
+    conditions of your agreement with your bank. A refund must be claimed
+    within 8 weeks starting from the date on which your account was debited.
+  </div>
+</form>
